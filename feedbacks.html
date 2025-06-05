@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Feedback</title>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-4">
+  <div class="w-full max-w-2xl">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">All Submitted Feedback</h2>
+    <div id="feedbackList" class="space-y-4">Loading...</div>
+    <div class="mt-6 text-center">
+      <a href="index.html" class="inline-block bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300">Go Back</a>
+    </div>
+  </div>
+
+  <script type="module">
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCnj-psCrzrCE-YlgqqQfXKPIzkU39tQzg",
+      authDomain: "feedback-web-1ce2d.firebaseapp.com",
+      projectId: "feedback-web-1ce2d",
+      storageBucket: "feedback-web-1ce2d.firebasestorage.app",
+      messagingSenderId: "159465620227",
+      appId: "1:159465620227:web:07adda9526a1eea1015f36"
+    };
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const feedbackList = document.getElementById('feedbackList');
+
+    async function loadFeedbacks() {
+      const feedbacksCol = collection(db, "feedbacks");
+      const q = query(feedbacksCol, orderBy("timestamp", "desc"));
+      const feedbacksSnapshot = await getDocs(q);
+
+      if (feedbacksSnapshot.empty) {
+        feedbackList.innerHTML = '<p class="text-gray-600 text-center">No feedback found.</p>';
+        return;
+      }
+
+      let html = '';
+      feedbacksSnapshot.forEach(doc => {
+        const data = doc.data();
+        html += `
+          <div class="bg-white p-4 rounded-lg shadow-md">
+            <p class="text-gray-800 font-semibold">${data.name}</p>
+            <p class="text-gray-600 mt-2">${data.feedback}</p>
+            <p class="text-gray-400 text-sm mt-2">${new Date(data.timestamp.toDate()).toLocaleString()}</p>
+          </div>
+        `;
+      });
+
+      feedbackList.innerHTML = html;
+    }
+
+    loadFeedbacks();
+  </script>
+</body>
+</html>

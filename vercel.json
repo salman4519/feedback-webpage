@@ -2,6 +2,6 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
-    { "source": "/feedbackss", "destination": "/feedbacks.html" }
+    { "source": "/feedbacks", "destination": "/feedbacks.html" }
   ]
 }

@@ -2,31 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Feedback Form</title>
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h2>Give Your Feedback</h2>
-  <form id="feedbackForm">
-    <input type="text" id="name" placeholder="Your Name" required><br><br>
-    <textarea id="feedback" placeholder="Your Feedback" required></textarea><br><br>
-    <button type="submit">Submit</button>
-  </form>
-  <p id="response"></p>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Give Your Feedback to Salman</h2>
+    <form id="feedbackForm" class="space-y-4">
+      <div>
+        <input 
+          type="text" 
+          id="name" 
+          placeholder="araaa??" 
+          required 
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+      </div>
+      <div>
+        <textarea 
+          id="feedback" 
+          placeholder="veruthe thallaan alla enthelum improve cheyan suggest cheeyya alleel entheelum appreciate cheyyaanengil angane"
+          required 
+          rows="5" 
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+        ></textarea>
+      </div>
+      <button 
+        type="submit" 
+        class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
+      >
+        Submit
+      </button>
+    </form>
+    <p id="response" class="mt-4 text-center text-gray-600"></p>
+  </div>
 
   <script type="module">
-    // ✅ Your Firebase config
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyCnj-psCrzrCE-YlgqqQfXKPIzkU39tQzg",
-  authDomain: "feedback-web-1ce2d.firebaseapp.com",
-  projectId: "feedback-web-1ce2d",
-  storageBucket: "feedback-web-1ce2d.firebasestorage.app",
-  messagingSenderId: "159465620227",
-  appId: "1:159465620227:web:07adda9526a1eea1015f36"
+      authDomain: "feedback-web-1ce2d.firebaseapp.com",
+      projectId: "feedback-web-1ce2d",
+      storageBucket: "feedback-web-1ce2d.firebasestorage.app",
+      messagingSenderId: "159465620227",
+      appId: "1:159465620227:web:07adda9526a1eea1015f36"
     };
 
-    // ✅ Import Firebase services
+    // Import Firebase services
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
@@ -49,11 +74,13 @@
           timestamp: new Date()
         });
 
-        responseEl.innerText = "✅ Thank you for your feedback!";
+        responseEl.innerText = "✅ okey da sheri enna thanks!";
+        responseEl.classList.add('text-green-500');
         form.reset();
       } catch (err) {
         console.error(err);
-        responseEl.innerText = "❌ Something went wrong. Try again.";
+        responseEl.innerText = "❌ nhdoo pottyy";
+        responseEl.classList.add('text-red-500');
       }
     });
   </script>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Feedback Form</title>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"></script>
+</head>
+<body>
+  <h2>Give Your Feedback</h2>
+  <form id="feedbackForm">
+    <input type="text" id="name" placeholder="Your Name" required><br><br>
+    <textarea id="feedback" placeholder="Your Feedback" required></textarea><br><br>
+    <button type="submit">Submit</button>
+  </form>
+  <p id="response"></p>
+
+  <script type="module">
+    // ✅ Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCnj-psCrzrCE-YlgqqQfXKPIzkU39tQzg",
+  authDomain: "feedback-web-1ce2d.firebaseapp.com",
+  projectId: "feedback-web-1ce2d",
+  storageBucket: "feedback-web-1ce2d.firebasestorage.app",
+  messagingSenderId: "159465620227",
+  appId: "1:159465620227:web:07adda9526a1eea1015f36"
+    };
+
+    // ✅ Import Firebase services
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const form = document.getElementById('feedbackForm');
+    const responseEl = document.getElementById('response');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const feedback = document.getElementById('feedback').value.trim();
+
+      try {
+        await addDoc(collection(db, "feedbacks"), {
+          name,
+          feedback,
+          timestamp: new Date()
+        });
+
+        responseEl.innerText = "✅ Thank you for your feedback!";
+        form.reset();
+      } catch (err) {
+        console.error(err);
+        responseEl.innerText = "❌ Something went wrong. Try again.";
+      }
+    });
+  </script>
+</body>
+</html>
